@@ -37,20 +37,20 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   const txConfig: BoxActionRequest = {
     sender: account!,
     srcChainId: chain?.id as ChainId,
-    dstChainId: ChainId.POLYGON,
-    srcToken: sourceToken, // really want to dynamically set based on user's balances
-    dstToken: '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359',
-    slippage: 1,
+    dstChainId: ChainId.POLYGON, // change to your destination chain
+    srcToken: sourceToken,
+    dstToken: '', // set your destination token (gas token -> zero address)
+    slippage: 1, 
     actionType: ActionType.EvmFunction,
     actionConfig: {
-      contractAddress: "",
-      chainId: ChainId.POLYGON,
-      signature: "function mintTokens(uint256 requestedQuantity, address recipient)",
-      args: [1n, account!],
+      contractAddress: "", // the contract you want to interact with on the destination chain
+      chainId: ChainId.POLYGON, // the destination chain
+      signature: "function mintTokens(uint256 requestedQuantity, address recipient)", // signature of function to be executed
+      args: [1n, account!], // arguments to be passed to the function
       cost: {
-        isNative: false,
-        amount: 25000000n, // 25 USD in USDC which has 6 decimals
-        tokenAddress: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
+        isNative: false, // whether or not to send gasToken or not to the destinaton contract
+        amount: 25000000n, // amount to send (watch out for the decimals and formatting of the token)
+        tokenAddress: "", // the payment token's smart contract
       },
     }
   }
